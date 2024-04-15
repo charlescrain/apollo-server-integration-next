@@ -11,7 +11,7 @@ const typeDefs = gql`
   }
 
   type Cast {
-    giverFid: String!
+    giverFid: Int!
     hash: String!
     date: String!
   }

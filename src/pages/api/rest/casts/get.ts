@@ -4,8 +4,6 @@ import { Tip } from './set'
 import { cache } from '../../../../startServerAndCreateNextHandler'
 
 export interface Pagination {
-  startTime: string
-  endTime: string
   offset?: number
   limit?: number
 }
