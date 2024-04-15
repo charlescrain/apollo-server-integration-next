@@ -17,7 +17,7 @@ interface DbTip {
 }
 
 // Max number of rows returned per request
-const MAX_ROWS = 500
+const MAX_ROWS = 1000
 
 const mapValuesToTip = (row: DbTip): Tip => ({
   giverFid: row.giver_fid,
