@@ -17,30 +17,23 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "downlevelIteration": true,
-    "types": [
-      "jest",
-      "node"
-    ],
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
     "allowJs": true,
     "noEmit": true,
     "incremental": true,
     "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "jsx": "preserve"
+    "jsx": "preserve",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ]
   },
   "include": [
     "src"
   ],
   "exclude": [
     "node_modules"
-  ],
-  "$schema": "https://json.schemastore.org/tsconfig",
-  "display": "Strictest",
-  "_version": "2.0.0"
+  ]
 }
