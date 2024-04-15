@@ -1,5 +1,4 @@
-import { Tip } from '../pages/api/actions'
-import { logger } from './winston'
+import { Tip } from '../pages/api/rest/casts/set'
 
 interface Author {
   fid: number
@@ -33,42 +32,15 @@ export const isTipCast = (cast: Cast): boolean => {
   return isAttemptedTip && !!cast.parent_author.fid
 }
 
-/**
- * Extract a tip from a cast. It is assumed that `isTipCast` has already run
- * @param {Cast} cast
- * @returns {number}
- */
-export const extractTipAmount = (cast: Cast): number | null => {
-  try {
-    const tip = cast.text.match(TIP_REGEX)
-    if (!tip) {
-      throw new Error(`Tip not found in string: ${cast.text}`)
-    }
-
-    // Extract the tip amount as number
-    const amount = parseInt(tip[0])
-    if (typeof amount !== 'number') {
-      throw new Error(`Cannot extract amount from ${cast.text}`)
-    }
-
-    return amount
-  } catch (err) {
-    logger.error(err)
-    return null
-  }
-}
-
 export const parseCast = (cast: Cast): Tip | null => {
   const giverFid = cast.author.fid
-  const recipientFid = cast.parent_author.fid
-  const amount = extractTipAmount(cast)
+  const hash = cast.hash
   const date = cast.timestamp
 
-  return giverFid && recipientFid && amount && date
+  return giverFid && hash && date
     ? {
         giverFid,
-        recipientFid,
-        amount,
+        hash,
         date,
       }
     : null
