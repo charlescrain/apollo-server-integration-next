@@ -1,4 +1,5 @@
 import { ApolloServer } from '@apollo/server'
+import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default'
 import resolvers from './graphql/resolvers/main'
 import typeDefs from './graphql/schema/main'
 import { startServerAndCreateNextHandler } from '../../startServerAndCreateNextHandler'
@@ -6,7 +7,7 @@ import { startServerAndCreateNextHandler } from '../../startServerAndCreateNextH
 const server = new ApolloServer({
   resolvers,
   typeDefs,
-  introspection: true,
+  plugins: [ApolloServerPluginLandingPageLocalDefault()],
 })
 
 export default startServerAndCreateNextHandler(server)
