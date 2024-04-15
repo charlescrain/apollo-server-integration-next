@@ -1,37 +1,23 @@
 {
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint/eslint-plugin", "prettier"],
   "extends": [
-    "airbnb",
-    "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:import/recommended",
-    "plugin:import/typescript",
-    "prettier"
+    "plugin:prettier/recommended"
   ],
+  "root": true,
+  "env": {
+    "node": true,
+    "jest": true
+  },
   "rules": {
-    "import/extensions": "off",
-    "import/no-extraneous-dependencies": "off",
-    "import/order": [
-      "error",
-      {
-        "alphabetize": {
-          "order": "asc"
-        },
-        "groups": [],
-        "newlines-between": "never"
-      }
-    ],
-    "import/prefer-default-export": "off",
-    "jsx-a11y/anchor-is-valid": "off",
-    "jsx-a11y/no-autofocus": "off",
-    "no-console": "error",
-    "no-restricted-exports": "off",
-    "no-restricted-syntax": "off",
-    "sort-imports": [
-      "error",
-      {
-        "ignoreDeclarationSort": true
-      }
-    ]
+    "@typescript-eslint/interface-name-prefix": "off",
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/semi": "off",
+    "@typescript-eslint/no-var-requires": "off",
+    "prettier/prettier": "error"
   },
   "settings": {
     "import/resolver": {

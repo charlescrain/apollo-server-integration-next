@@ -1,3 +1,8 @@
 .wireit/
 dist/
 node_modules/
+.vercel
+.next/
+.vscode/
+combined.log
+error.log
