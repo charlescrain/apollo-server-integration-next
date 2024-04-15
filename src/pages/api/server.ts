@@ -6,6 +6,7 @@ import { startServerAndCreateNextHandler } from '../../startServerAndCreateNextH
 const server = new ApolloServer({
   resolvers,
   typeDefs,
+  introspection: true,
 })
 
 export default startServerAndCreateNextHandler(server)
