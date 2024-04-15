@@ -7,3 +7,5 @@ dist/
 package-lock.json
 CODEOWNERS
 LICENSE
+tsconfig.json
+.eslintrc.json

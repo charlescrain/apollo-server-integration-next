@@ -1,5 +1,10 @@
 {
   "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "**/tsconfig.json",
+    "tsconfigRootDir": "/",
+    "sourceType": "module"
+  },
   "plugins": ["@typescript-eslint/eslint-plugin", "prettier"],
   "extends": [
     "plugin:@typescript-eslint/recommended",
@@ -10,6 +15,7 @@
     "node": true,
     "jest": true
   },
+  "ignorePatterns": ["**/*.js", "**/__test__", "**/node_modules"],
   "rules": {
     "@typescript-eslint/interface-name-prefix": "off",
     "@typescript-eslint/explicit-function-return-type": "off",

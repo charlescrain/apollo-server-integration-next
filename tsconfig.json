@@ -1,31 +1,31 @@
 {
   "compilerOptions": {
-    "allowJs": true,
-    "baseUrl": ".",
-    "declaration": true,
-    "downlevelIteration": true,
-    "esModuleInterop": true,
-    "module": "commonjs",
-    "outDir": "./dist",
-    "skipLibCheck": true,
     "strict": true,
-    "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
-    "noEmit": true,
-    "incremental": true,
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
+    "allowUnusedLabels": false,
+    "allowUnreachableCode": false,
+    "exactOptionalPropertyTypes": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noPropertyAccessFromIndexSignature": false,
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "isolatedModules": true,
-    "jsx": "preserve"
+    "checkJs": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "downlevelIteration": true,
+    "types": ["jest", "node"]
   },
   "include": [
     "src"
   ],
   "exclude": [
     "node_modules"
-  ]
+  ],
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "Strictest",
+  "_version": "2.0.0"
 }

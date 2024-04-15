@@ -1,5 +1,5 @@
 import merge from 'lodash.merge'
-import { logger } from 'src/lib/winston'
+import { logger } from '../../../../lib/winston'
 
 const castHashesQueryResolvers = {
   Query: {

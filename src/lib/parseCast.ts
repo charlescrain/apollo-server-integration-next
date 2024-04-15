@@ -1,5 +1,5 @@
-import { Tip } from "src/pages/api/actions"
-import { logger } from "./winston"
+import { Tip } from '../pages/api/actions'
+import { logger } from './winston'
 
 interface Author {
   fid: number
@@ -64,10 +64,12 @@ export const parseCast = (cast: Cast): Tip | null => {
   const amount = extractTipAmount(cast)
   const date = cast.timestamp
 
-  return giverFid && recipientFid && amount && date ? {
-    giverFid,
-    recipientFid,
-    amount,
-    date,
-  } : null
+  return giverFid && recipientFid && amount && date
+    ? {
+        giverFid,
+        recipientFid,
+        amount,
+        date,
+      }
+    : null
 }
