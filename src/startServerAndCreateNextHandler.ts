@@ -1,19 +1,11 @@
-import dotenv from 'dotenv'
 import { getBody } from './lib/getBody'
 import { getHeaders } from './lib/getHeaders'
 import { isNextApiRequest } from './lib/isNextApiRequest'
 import { ApolloServer, BaseContext, ContextFunction } from '@apollo/server'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { NextRequest } from 'next/server'
+import NodeCache from 'node-cache'
 import { parse } from 'url'
-
-dotenv.config()
-
-declare global {
-  interface Window {
-    config: { [k: string]: string }
-  }
-}
 
 type HandlerRequest = NextApiRequest | NextRequest | Request
 
@@ -23,6 +15,11 @@ interface Options<Req extends HandlerRequest, Context extends BaseContext> {
     Context
   >
 }
+
+// Create cache instance and set default lifetime to 1 hour
+const cache = new NodeCache({ stdTTL: 60 * 60 })
+// Ensure the cache is cleared when the server starts
+cache.flushAll()
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const defaultContext: ContextFunction<[], any> = async () => ({})
@@ -112,4 +109,4 @@ function startServerAndCreateNextHandler<
   return handler
 }
 
-export { startServerAndCreateNextHandler }
+export { startServerAndCreateNextHandler, cache }

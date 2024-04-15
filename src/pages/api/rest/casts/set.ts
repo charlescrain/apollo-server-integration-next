@@ -10,10 +10,10 @@ export interface Tip {
 const setTip = async (tip: Tip): Promise<boolean> => {
   try {
     const { giverFid, date, hash } = tip
-    await sql`INSERT INTO Casts (Giverfid, Date, Hash) VALUES (${giverFid}, ${date}, ${hash});`
+    await sql`INSERT INTO casts (giver_fid, date, hash) VALUES (${giverFid}, ${date}, ${hash});`
     return true
   } catch (err) {
-    logger.error(err)
+    logger.error(`Tip saving failed: ${err}`)
     return false
   }
 }

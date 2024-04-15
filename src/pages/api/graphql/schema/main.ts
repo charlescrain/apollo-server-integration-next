@@ -2,7 +2,18 @@ import { gql } from 'graphql-tag'
 
 const typeDefs = gql`
   type Query {
-    castHashes: [String]!
+    casts(pagination: Pagination): [Cast]!
+  }
+
+  input Pagination {
+    limit: Int
+    offset: Int
+  }
+
+  type Cast {
+    giverFid: String!
+    hash: String!
+    date: String!
   }
 `
 
