@@ -1,6 +1,6 @@
 .wireit/
 dist/
-
+.changeset
 .gitignore
 .npmrc
 .prettierignore
@@ -8,4 +8,5 @@ package-lock.json
 CODEOWNERS
 LICENSE
 tsconfig.json
+tsconfig.tsbuildinfo
 .eslintrc.json
