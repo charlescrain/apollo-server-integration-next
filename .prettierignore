@@ -10,3 +10,4 @@ LICENSE
 tsconfig.json
 tsconfig.tsbuildinfo
 .eslintrc.json
+next.config.js
