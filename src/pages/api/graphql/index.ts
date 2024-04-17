@@ -21,7 +21,7 @@ const graphql: NextApiHandler = async (req, res) => {
 
   const allowedOrigins = [
     'https://a6ef-2600-1700-eb1-de40-e136-8946-582f-e7.ngrok-free.app',
-    'https://api.rare.xyz/v1/graphql',
+    'https://api.rare.xyz',
   ]
   const origin = req.headers.origin
   if (origin && allowedOrigins.includes(origin)) {
