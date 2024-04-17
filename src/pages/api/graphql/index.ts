@@ -9,8 +9,6 @@ import NextCors from 'nextjs-cors'
 const server = new ApolloServer({
   resolvers,
   typeDefs,
-  introspection: true,
-  plugins: [ApolloServerPluginLandingPageLocalDefault()],
 })
 
 const handler = startServerAndCreateNextHandler(server)
