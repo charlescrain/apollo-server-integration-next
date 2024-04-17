@@ -18,7 +18,15 @@ const graphql: NextApiHandler = async (req, res) => {
     'Access-Control-Allow-Methods',
     'GET,OPTIONS,PATCH,DELETE,POST,PUT'
   )
-  res.setHeader('Access-Control-Allow-Headers', '*')
+
+  const allowedOrigins = [
+    'https://a6ef-2600-1700-eb1-de40-e136-8946-582f-e7.ngrok-free.app',
+    'https://api.rare.xyz/v1/graphql',
+  ]
+  const origin = req.headers.origin
+  if (origin && allowedOrigins.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin)
+  }
 
   if (req.method === 'OPTIONS') {
     res.status(200).end()
