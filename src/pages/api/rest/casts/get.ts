@@ -50,7 +50,7 @@ const getTips = async (config?: Pagination): Promise<Tip[]> => {
     `)
 
     const tips = rows.map(mapValuesToTip)
-    cache.set(cacheKey, tips, 30000)
+    cache.set(cacheKey, tips, 30)
     return tips
   } catch (err) {
     logger.error(`Tip retrieval failed: ${err}`)
