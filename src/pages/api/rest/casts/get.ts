@@ -43,7 +43,8 @@ const getTips = async (config?: Pagination): Promise<Tip[]> => {
         SELECT giver_fid,
           hash,
           date
-        FROM casts 
+        FROM casts
+        WHERE date >= TO_DATE(${process.env.TIPPING_PROGRAM_START_DATE}, 'MM-DD-YYYY')
         ORDER BY date DESC
         LIMIT ${limit}
         OFFSET ${offset};
