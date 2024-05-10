@@ -12,17 +12,6 @@ const server = new ApolloServer({
 const handler = startServerAndCreateNextHandler(server)
 
 const graphql: NextApiHandler = async (req, res) => {
-  res.setHeader('Access-Control-Allow-Credentials', 'true')
-  res.setHeader('Access-Control-Allow-Origin', '*')
-  res.setHeader(
-    'Access-Control-Allow-Methods',
-    'GET,OPTIONS,PATCH,DELETE,POST,PUT'
-  )
-
-  if (req.method === 'OPTIONS') {
-    res.status(200).end()
-  }
-
   await handler(req, res)
 }
 
