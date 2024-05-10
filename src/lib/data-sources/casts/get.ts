@@ -1,12 +1,8 @@
 import { QueryResult, sql } from '@vercel/postgres'
-import { logger } from '../../../../lib/winston'
-import { Tip } from './set'
-import { cache } from '../../../../startServerAndCreateNextHandler'
-
-export interface Pagination {
-  offset?: number
-  limit?: number
-}
+import { logger } from '../../utils/logger'
+import { cache } from '../../../startServerAndCreateNextHandler'
+import { TipCast } from '../../../pages/api/graphql/resolvers/casts'
+import { Pagination } from '../../../pages/api/graphql/resolvers/main'
 
 interface DbTip {
   giver_fid: number
@@ -15,15 +11,15 @@ interface DbTip {
 }
 
 // Max number of rows returned per request
-const MAX_ROWS = 1000
+const MAX_ROWS = 10000
 
-const mapValuesToTip = (row: DbTip): Tip => ({
+const mapValuesToTip = (row: DbTip): TipCast => ({
   giverFid: row.giver_fid,
   hash: row.hash,
   date: row.date.toISOString(),
 })
 
-const getTips = async (config?: Pagination): Promise<Tip[]> => {
+const getTipCasts = async (config?: Pagination): Promise<TipCast[]> => {
   try {
     const offset = config && config.offset ? config.offset : 0
     const limit =
@@ -33,7 +29,7 @@ const getTips = async (config?: Pagination): Promise<Tip[]> => {
 
     // Cache
     const cacheKey = `CASTS_${offset}_${limit}`
-    const cachedTips = cache.get<Tip[]>(cacheKey)
+    const cachedTips = cache.get<TipCast[]>(cacheKey)
 
     if (cachedTips) {
       return cachedTips
@@ -59,4 +55,4 @@ const getTips = async (config?: Pagination): Promise<Tip[]> => {
   }
 }
 
-export default getTips
+export default getTipCasts

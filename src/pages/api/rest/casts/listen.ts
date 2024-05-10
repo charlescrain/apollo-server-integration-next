@@ -1,19 +1,38 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { Cast, isTipCast, parseCast } from '../../../../lib/parseCast'
-import { logger } from '../../../../lib/winston'
-import setTip from './set'
+import { logger } from '../../../../lib/utils/logger'
+import setTipCasts from '../../../../lib/data-sources/casts/set'
 import { cache } from '../../../../startServerAndCreateNextHandler'
+import { isTipCast, parseCast } from '../../../../lib/utils/parseCast'
+
+interface NeynarCastAuthor {
+  fid: number
+  username: string
+  [key: string]: any
+}
+
+interface NeynarCastParentAuthor {
+  fid: number | null
+}
+
+export interface NeynarCast {
+  hash: string
+  parent_author: NeynarCastParentAuthor
+  author: NeynarCastAuthor
+  text: string
+  timestamp: string
+  [key: string]: any
+}
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   const { type, data } = req.body
-  if (!type || type !== 'cast.created' || !isTipCast(data as Cast)) {
+  if (!type || type !== 'cast.created' || !isTipCast(data as NeynarCast)) {
     return res.status(400).json({ message: 'Not a tip cast' })
   }
 
-  const cast = data as Cast
+  const cast = data as NeynarCast
   if (cache.get(`HASH_${cast.hash}`)) {
     return res.status(400).json({ message: 'Cast already exists' })
   }
@@ -24,7 +43,7 @@ export default async function handler(
     return res.status(500).json({ message: 'Something went wrong' })
   }
 
-  const isSaved = await setTip(tip)
+  const isSaved = await setTipCasts(tip)
   if (!isSaved) {
     return res.status(500).json({ message: 'Something went wrong' })
   }

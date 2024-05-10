@@ -7,3 +7,4 @@ node_modules/
 combined.log
 error.log
 .env.development.local
+db_backups

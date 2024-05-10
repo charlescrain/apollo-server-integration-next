@@ -1,7 +1,8 @@
-import { getBody } from './lib/getBody'
-import { getHeaders } from './lib/getHeaders'
-import { isNextApiRequest } from './lib/isNextApiRequest'
+import { getBody } from './lib/utils/getBody'
+import { getHeaders } from './lib/utils/getHeaders'
+import { isNextApiRequest } from './lib/utils/isNextApiRequest'
 import { ApolloServer, BaseContext, ContextFunction } from '@apollo/server'
+import { PrismaClient } from '@prisma/client'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { NextRequest } from 'next/server'
 import NodeCache from 'node-cache'
@@ -20,6 +21,9 @@ interface Options<Req extends HandlerRequest, Context extends BaseContext> {
 const cache = new NodeCache({ stdTTL: 60 * 60 })
 // Ensure the cache is cleared when the server starts
 cache.flushAll()
+
+// Create a prisma instance
+const prismaClient = new PrismaClient()
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const defaultContext: ContextFunction<[], any> = async () => ({})
@@ -109,4 +113,4 @@ function startServerAndCreateNextHandler<
   return handler
 }
 
-export { startServerAndCreateNextHandler, cache }
+export { startServerAndCreateNextHandler, cache, prismaClient }

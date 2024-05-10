@@ -5,8 +5,8 @@ import { startServerAndCreateNextHandler } from '../../../startServerAndCreateNe
 import { NextApiHandler } from 'next'
 
 const server = new ApolloServer({
-  resolvers,
   typeDefs,
+  resolvers,
 })
 
 const handler = startServerAndCreateNextHandler(server)

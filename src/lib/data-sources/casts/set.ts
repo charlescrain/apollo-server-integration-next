@@ -1,13 +1,8 @@
 import { sql } from '@vercel/postgres'
-import { logger } from '../../../../lib/winston'
+import { logger } from '../../utils/logger'
+import { TipCast } from '../../../pages/api/graphql/resolvers/casts'
 
-export interface Tip {
-  giverFid: number
-  hash: string
-  date: string
-}
-
-const setTip = async (tip: Tip): Promise<boolean> => {
+const setTipCasts = async (tip: TipCast): Promise<boolean> => {
   try {
     const { giverFid, date, hash } = tip
     await sql`INSERT INTO casts (giver_fid, date, hash) VALUES (${giverFid}, ${date}, ${hash});`
@@ -18,4 +13,4 @@ const setTip = async (tip: Tip): Promise<boolean> => {
   }
 }
 
-export default setTip
+export default setTipCasts

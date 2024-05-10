@@ -1,0 +1,57 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
+}
+
+model casts {
+  id       Int       @id @default(autoincrement())
+  giverFid Int?      @map("giver_fid")
+  hash     String?   @db.VarChar(255)
+  date     DateTime? @db.Timestamp(6)
+}
+
+model tips {
+  id           Int      @id @default(autoincrement())
+  date         DateTime @db.Timestamp(6)
+  giverFid     Int      @map("giver_fid")
+  recipientFid Int      @map("recipient_fid")
+  amount       Decimal  @db.Decimal
+  hash         String   @db.VarChar(255)
+  parentHash   String?  @map("parent_hash") @db.VarChar(255)
+}
+
+model users {
+  id                         Int      @id @default(autoincrement())
+  address                    String   @db.VarChar(255)
+  isEligible                 Boolean  @map("is_eligible")
+  dailyAllowance             Decimal  @map("daily_allowance") @db.Decimal
+  allowanceRemaining         Decimal  @map("allowance_remaining") @db.Decimal
+  allowanceTipped            Decimal  @map("allowance_tipped") @db.Decimal
+  dailyAmountReceived        Decimal  @map("daily_amount_received") @db.Decimal
+  totalAmountTipped          Decimal  @map("total_amount_tipped")
+  dailyTipCount              Int      @map("daily_tip_count")
+  daysSinceLastPoints        Int      @map("days_since_last_points")
+  points                     Decimal
+  artworksCreated            Int      @map("artworks_created")
+  bidOrOfferPlaced           Int      @map("bid_or_offer_placed")
+  tipsGiven                  Int      @map("tips_given")
+  priceSetOrAuctionScheduled Int      @map("price_set_or_auction_scheduled")
+  artworkPurchased           Int      @map("artwork_purchased")
+  tokenLike                  Int      @map("token_like")
+  casts                      Int
+  castLikes                  Int      @map("cast_likes")
+  castRecasts                Int      @map("cast_recasts")
+  castReplies                Int      @map("cast_replies")
+  replies                    Int
+  likes                      Int
+  artworkTipsGiven           Int      @map("artwork_tips_given")
+  date                       DateTime @db.Timestamp(6)
+  fids                       Int[]
+  totalAmountReceived        Decimal  @map("total_amount_received") @db.Decimal
+  totalTipCount              Decimal  @map("total_tip_count") @db.Decimal
+}

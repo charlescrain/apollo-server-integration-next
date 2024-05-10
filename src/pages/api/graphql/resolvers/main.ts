@@ -1,27 +1,13 @@
 import merge from 'lodash.merge'
-import { logger } from '../../../../lib/winston'
-import getTips, { Pagination } from '../../rest/casts/get'
-import { Tip } from '../../rest/casts/set'
+import castsResolvers from './casts'
+import usersResolvers from './users'
+import tipsResolvers from './tips'
 
-const castsQueryResolvers = {
-  Query: {
-    casts: async (
-      _: any,
-      args: {
-        pagination: Pagination
-      }
-    ): Promise<Tip[]> => {
-      try {
-        const tips = await getTips(args.pagination)
-        return tips
-      } catch (err) {
-        logger.error(err)
-        return []
-      }
-    },
-  },
+export interface Pagination {
+  offset?: number
+  limit?: number
 }
 
-const resolvers = merge({}, castsQueryResolvers)
+const resolvers = merge({}, castsResolvers, usersResolvers, tipsResolvers)
 
 export default resolvers

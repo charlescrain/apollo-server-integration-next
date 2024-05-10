@@ -1,20 +1,24 @@
 import { gql } from 'graphql-tag'
+import queries from './queries'
+import mutations from './mutations'
+import cast from './cast'
+import tips from './tip'
+import users from './user'
 
-const typeDefs = gql`
-  type Query {
-    casts(pagination: Pagination): [Cast]!
-  }
-
+const main = gql`
   input Pagination {
     limit: Int
     offset: Int
   }
+`
 
-  type Cast {
-    giverFid: Int!
-    hash: String!
-    date: String!
-  }
+const typeDefs = gql`
+  ${main}
+  ${queries}
+  ${mutations}
+  ${cast}
+  ${tips}
+  ${users}
 `
 
 export default typeDefs
