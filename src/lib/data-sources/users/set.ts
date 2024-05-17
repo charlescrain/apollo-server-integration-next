@@ -25,6 +25,7 @@ const setUsers = async (
 
     const createdUsers = await prismaClient.users.createMany({
       data: users,
+      skipDuplicates: true,
     })
 
     return {

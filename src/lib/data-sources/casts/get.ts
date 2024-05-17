@@ -1,11 +1,10 @@
-import { QueryResult, sql } from '@vercel/postgres'
 import { logger } from '../../utils/logger'
-import { cache } from '../../../startServerAndCreateNextHandler'
+import { cache, prismaClient } from '../../../startServerAndCreateNextHandler'
 import { TipCast } from '../../../pages/api/graphql/resolvers/casts'
 import { Pagination } from '../../../pages/api/graphql/resolvers/main'
 
 interface DbTip {
-  giver_fid: number
+  giverFid: number
   hash: string
   date: Date
 }
@@ -14,10 +13,14 @@ interface DbTip {
 const MAX_ROWS = 10000
 
 const mapValuesToTip = (row: DbTip): TipCast => ({
-  giverFid: row.giver_fid,
+  giverFid: row.giverFid,
   hash: row.hash,
   date: row.date.toISOString(),
 })
+
+const startDate = new Date(
+  process.env.TIPPING_PROGRAM_START_DATE || '2024-04-30'
+)
 
 const getTipCasts = async (config?: Pagination): Promise<TipCast[]> => {
   try {
@@ -35,19 +38,29 @@ const getTipCasts = async (config?: Pagination): Promise<TipCast[]> => {
       return cachedTips
     }
 
-    const { rows } = await (<Promise<QueryResult<DbTip>>>sql`
-        SELECT giver_fid,
-          hash,
-          date
-        FROM casts
-        WHERE date >= TO_DATE(${process.env.TIPPING_PROGRAM_START_DATE}, 'MM-DD-YYYY')
-        ORDER BY date DESC
-        LIMIT ${limit}
-        OFFSET ${offset};
-    `)
+    const casts = await prismaClient.tips.findMany({
+      where: {
+        date: {
+          gte: startDate,
+        },
+      },
+      skip: offset,
+      take: limit,
+    })
+    // const { rows } = await (<Promise<QueryResult<DbTip>>>sql`
+    //     SELECT giver_fid,
+    //       hash,
+    //       date
+    //     FROM casts
+    //     WHERE date >= TO_DATE(${process.env.TIPPING_PROGRAM_START_DATE}, 'MM-DD-YYYY')
+    //     ORDER BY date DESC
+    //     LIMIT ${limit}
+    //     OFFSET ${offset};
+    // `)
 
-    const tips = rows.map(mapValuesToTip)
+    const tips = casts.map(mapValuesToTip)
     cache.set(cacheKey, tips, 30)
+    console.log('returning tips')
     return tips
   } catch (err) {
     logger.error(`Tip retrieval failed: ${err}`)
