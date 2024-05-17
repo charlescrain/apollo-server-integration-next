@@ -81,7 +81,4 @@ const getTipCasts = async (config?: Pagination): Promise<TipCast[]> => {
   }
 }
 
-getTipCasts().then((tips) => {
-  console.log(tips)
-})
 export default getTipCasts
