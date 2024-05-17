@@ -4,25 +4,39 @@ import { TipCast } from '../../../pages/api/graphql/resolvers/casts'
 import { Pagination } from '../../../pages/api/graphql/resolvers/main'
 
 interface DbTip {
-  giverFid: number
-  hash: string
-  date: Date
+  giverFid: number | null
+  hash: string | null
+  date: Date | null
 }
 
+export function filterNullish<T>(vs: (T | null | undefined)[]): T[] {
+  return vs.reduce<T[]>((acc, v) => {
+    if (v) {
+      acc.push(v)
+    }
+    return acc
+  }, [])
+}
 // Max number of rows returned per request
 const MAX_ROWS = 10000
 
-const mapValuesToTip = (row: DbTip): TipCast => ({
-  giverFid: row.giverFid,
-  hash: row.hash,
-  date: row.date.toISOString(),
-})
+const mapValuesToTip = (row: DbTip): TipCast | null => {
+  if (!row.date || !row.giverFid || !row.hash) {
+    return null
+  }
+  return {
+    giverFid: row.giverFid,
+    hash: row.hash,
+    date: row.date.toISOString(),
+  }
+}
 
 const startDate = new Date(
   process.env.TIPPING_PROGRAM_START_DATE || '2024-04-30'
 )
 
 const getTipCasts = async (config?: Pagination): Promise<TipCast[]> => {
+  console.log(startDate)
   try {
     const offset = config && config.offset ? config.offset : 0
     const limit =
@@ -38,7 +52,7 @@ const getTipCasts = async (config?: Pagination): Promise<TipCast[]> => {
       return cachedTips
     }
 
-    const casts = await prismaClient.tips.findMany({
+    const casts = await prismaClient.casts.findMany({
       where: {
         date: {
           gte: startDate,
@@ -57,8 +71,7 @@ const getTipCasts = async (config?: Pagination): Promise<TipCast[]> => {
     //     LIMIT ${limit}
     //     OFFSET ${offset};
     // `)
-
-    const tips = casts.map(mapValuesToTip)
+    const tips = filterNullish(casts.map(mapValuesToTip))
     cache.set(cacheKey, tips, 30)
     console.log('returning tips')
     return tips
@@ -68,4 +81,7 @@ const getTipCasts = async (config?: Pagination): Promise<TipCast[]> => {
   }
 }
 
+getTipCasts().then((tips) => {
+  console.log(tips)
+})
 export default getTipCasts
